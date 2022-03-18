@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="fr">
+ <head>
+   <!-- Quelques metas incontournables -->
+   <meta charset="utf-8">
+   <!-- Bug Safari 9 -->
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+   <title>Calcul du meilleur itinéraire</title>
+   <!-- un favicon trouvé sur internet qui sera également le logo de notre application -->
+   <link rel="shortcut icon" href="https://cdn2.iconfinder.com/data/icons/on-point-social-media/141/Maps-512.png">
+   <!-- Chargement de Bootstrap -->
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+   <!-- Leaflet CSS -->
+   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+   <!-- Leaflet JS après le CSS -->
+   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+   <!-- notre feuille de style -->
+   <link rel="stylesheet" href="app.css">
+   <!-- notre fichier Javascript -->
+   <script type="text/javascript" src="app.js" async defer></script>
+ </head>
+ <body>
+ <!-- bloc de contenu principal -->
+ <div class="main-content">
+
+<!-- la barre de navigation (qui ne servira à rien dans notre application) -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">
+        <img src="https://cdn2.iconfinder.com/data/icons/on-point-social-media/141/Maps-512.png" width="30" height="30" alt="">
+    </a>
+ 
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Accueil <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Lien 2</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Lien 1</a>
+            </li>
+        </ul>
+    </div>
+ </nav>
+ <!-- conteneur principal -->
+ <div class="container">
+     <!-- titre principal -->
+     <h1>Calculez votre itinéraire</h1>
+
+    <!-- message informatif -->
+    <div class="information alert alert-secondary" role="alert">
+        Pour trouver un itinéraire, cliquez sur 2 marqueurs de la carte ou choisissez 2 villes dans les listes de sélection.
+    </div>
+        
+     <div class="row">
+        <!-- première colonne : accueillera la carte -->
+        <div class="col-md-8">
+            <!-- la carte de France -->
+            <div id="mapid"></div>
+        </div>
+     
+        <!-- deuxième colonne -->
+        <div class="col-md-4">
+            <!-- formulaire pour pouvoir poster nos choix de villes -->
+            <form id="itineraireForm" method="post" action="/formation/nsi/bloc4/index.php">
+                <div class="form-group">
+                    <label for="villedepart">Aller de :</label>
+                    <select class="form-control" id="villedepart" name="villedepart">
+                                                                    <option value="13" >Amiens</option>
+                                                                    <option value="21" >Angers</option>
+                                                                    <option value="26" >Biarritz</option>
+                                                                    <option value="1" >Bordeaux</option>
+                                                                    <option value="27" >Bourges</option>
+                                                                    <option value="19" >Brest</option>
+                                                                    <option value="17" >Caen</option>
+                                                                    <option value="5" >Clermont-Ferrand</option>
+                                                                    <option value="10" >Dijon</option>
+                                                                    <option value="4" >Grenoble</option>
+                                                                    <option value="9" >Le Mans</option>
+                                                                    <option value="14" >Lille</option>
+                                                                    <option value="6" >Limoges</option>
+                                                                    <option value="20" >Lorient</option>
+                                                                    <option value="24" >Lyon</option>
+                                                                    <option value="22" >Marseille</option>
+                                                                    <option value="3" >Montpellier</option>
+                                                                    <option value="11" >Nancy</option>
+                                                                    <option value="25" >Nantes</option>
+                                                                    <option value="23" >Nice</option>
+                                                                    <option value="16" >Paris</option>
+                                                                    <option value="7" >Poitiers</option>
+                                                                    <option value="12" >Reims</option>
+                                                                    <option value="18" >Rennes</option>
+                                                                    <option value="15" >Strasbourg</option>
+                                                                    <option value="2" >Toulouse</option>
+                                                                    <option value="8" >Tours</option>
+                                        </select>
+                    <small id="villeDHelp" class="form-text text-muted">Choisissez une ville de départ</small>
+                </div>
+            
+                <div class="form-group">
+                    <label for="villearrivee">à :</label>
+                    <select class="form-control" id="villearrivee" name="villearrivee">
+                                                                    <option value="13" >Amiens</option>
+                                                                    <option value="21" >Angers</option>
+                                                                    <option value="26" >Biarritz</option>
+                                                                    <option value="1" >Bordeaux</option>
+                                                                    <option value="27" >Bourges</option>
+                                                                    <option value="19" >Brest</option>
+                                                                    <option value="17" >Caen</option>
+                                                                    <option value="5" >Clermont-Ferrand</option>
+                                                                    <option value="10" >Dijon</option>
+                                                                    <option value="4" >Grenoble</option>
+                                                                    <option value="9" >Le Mans</option>
+                                                                    <option value="14" >Lille</option>
+                                                                    <option value="6" >Limoges</option>
+                                                                    <option value="20" >Lorient</option>
+                                                                    <option value="24" >Lyon</option>
+                                                                    <option value="22" >Marseille</option>
+                                                                    <option value="3" >Montpellier</option>
+                                                                    <option value="11" >Nancy</option>
+                                                                    <option value="25" >Nantes</option>
+                                                                    <option value="23" >Nice</option>
+                                                                    <option value="16" >Paris</option>
+                                                                    <option value="7" >Poitiers</option>
+                                                                    <option value="12" >Reims</option>
+                                                                    <option value="18" >Rennes</option>
+                                                                    <option value="15" >Strasbourg</option>
+                                                                    <option value="2" >Toulouse</option>
+                                                                    <option value="8" >Tours</option>
+                                        </select>
+                    <small id="villeAHelp" class="form-text text-muted">Choisissez une ville d'arrivée</small>
+                </div>
+            
+                <button type="submit" class="btn btn-primary btn-block">Trouver l'itinéraire le plus court&nbsp; &rarr;</button>
+            </form>
+             
+             <!-- Conteneur pour afficher le résultat -->
+                      </div>
+     </div>
+
+ </div>
+</div>
+
+  <!-- Pied de page -->
+  <footer>
+   <div class="container">
+       <div class="row">
+           <div class="col">
+               <a href="">@copyright Joachim Lucas 2020</a>
+           </div>
+       </div>
+   </div>
+  </footer>
+
+   <!-- Script pour injecter les villes provenant de la base dans Javascript -->
+   <script>
+        const villes = [{"id":13,"libelle":"Amiens","latitude":49.89409,"longitude":2.29493},{"id":21,"libelle":"Angers","latitude":47.470737,"longitude":-0.552472},{"id":26,"libelle":"Biarritz","latitude":43.483188,"longitude":-1.559566},{"id":1,"libelle":"Bordeaux","latitude":44.837433,"longitude":-0.578435},{"id":27,"libelle":"Bourges","latitude":47.081477,"longitude":2.398234},{"id":19,"libelle":"Brest","latitude":48.390273,"longitude":-4.484855},{"id":17,"libelle":"Caen","latitude":49.182822,"longitude":-0.372947},{"id":5,"libelle":"Clermont-Ferrand","latitude":45.777439,"longitude":3.09287},{"id":10,"libelle":"Dijon","latitude":47.32221,"longitude":5.042856},{"id":4,"libelle":"Grenoble","latitude":45.188387,"longitude":5.724472},{"id":9,"libelle":"Le Mans","latitude":48.005522,"longitude":0.201564},{"id":14,"libelle":"Lille","latitude":50.629312,"longitude":3.055055},{"id":6,"libelle":"Limoges","latitude":45.833954,"longitude":1.253831},{"id":20,"libelle":"Lorient","latitude":47.748513,"longitude":-3.37156},{"id":24,"libelle":"Lyon","latitude":45.762225,"longitude":4.83444},{"id":22,"libelle":"Marseille","latitude":43.297231,"longitude":5.367484},{"id":3,"libelle":"Montpellier","latitude":43.610258,"longitude":3.87914},{"id":11,"libelle":"Nancy","latitude":48.692212,"longitude":6.184598},{"id":25,"libelle":"Nantes","latitude":47.219292,"longitude":-1.5515},{"id":23,"libelle":"Nice","latitude":43.711086,"longitude":7.259351},{"id":16,"libelle":"Paris","latitude":48.857458,"longitude":2.351864},{"id":7,"libelle":"Poitiers","latitude":46.580381,"longitude":0.339025},{"id":12,"libelle":"Reims","latitude":49.257803,"longitude":4.028996},{"id":18,"libelle":"Rennes","latitude":48.117161,"longitude":-1.676437},{"id":15,"libelle":"Strasbourg","latitude":48.573623,"longitude":7.745962},{"id":2,"libelle":"Toulouse","latitude":43.60488,"longitude":1.439026},{"id":8,"libelle":"Tours","latitude":47.393911,"longitude":0.683438}];
+        const distances = [{"v1id":14,"v1libelle":"Lille","v1lat":50.629312,"v1lng":3.055055,"v2id":16,"v2libelle":"Paris","v2lat":48.857458,"v2lng":2.351864},{"v1id":13,"v1libelle":"Amiens","v1lat":49.89409,"v1lng":2.29493,"v2id":17,"v2libelle":"Caen","v2lat":49.182822,"v2lng":-0.372947},{"v1id":13,"v1libelle":"Amiens","v1lat":49.89409,"v1lng":2.29493,"v2id":16,"v2libelle":"Paris","v2lat":48.857458,"v2lng":2.351864},{"v1id":16,"v1libelle":"Paris","v1lat":48.857458,"v1lng":2.351864,"v2id":21,"v2libelle":"Angers","v2lat":47.470737,"v2lng":-0.552472},{"v1id":11,"v1libelle":"Nancy","v1lat":48.692212,"v1lng":6.184598,"v2id":15,"v2libelle":"Strasbourg","v2lat":48.573623,"v2lng":7.745962},{"v1id":18,"v1libelle":"Rennes","v1lat":48.117161,"v1lng":-1.676437,"v2id":19,"v2libelle":"Brest","v2lat":48.390273,"v2lng":-4.484855},{"v1id":18,"v1libelle":"Rennes","v1lat":48.117161,"v1lng":-1.676437,"v2id":20,"v2libelle":"Lorient","v2lat":47.748513,"v2lng":-3.37156},{"v1id":18,"v1libelle":"Rennes","v1lat":48.117161,"v1lng":-1.676437,"v2id":25,"v2libelle":"Nantes","v2lat":47.219292,"v2lng":-1.5515},{"v1id":17,"v1libelle":"Caen","v1lat":49.182822,"v1lng":-0.372947,"v2id":18,"v2libelle":"Rennes","v2lat":48.117161,"v2lng":-1.676437},{"v1id":1,"v1libelle":"Bordeaux","v1lat":44.837433,"v1lng":-0.578435,"v2id":6,"v2libelle":"Limoges","v2lat":45.833954,"v2lng":1.253831},{"v1id":1,"v1libelle":"Bordeaux","v1lat":44.837433,"v1lng":-0.578435,"v2id":2,"v2libelle":"Toulouse","v2lat":43.60488,"v2lng":1.439026},{"v1id":2,"v1libelle":"Toulouse","v1lat":43.60488,"v1lng":1.439026,"v2id":5,"v2libelle":"Clermont-Ferrand","v2lat":45.777439,"v2lng":3.09287},{"v1id":2,"v1libelle":"Toulouse","v1lat":43.60488,"v1lng":1.439026,"v2id":3,"v2libelle":"Montpellier","v2lat":43.610258,"v2lng":3.87914},{"v1id":10,"v1libelle":"Dijon","v1lat":47.32221,"v1lng":5.042856,"v2id":24,"v2libelle":"Lyon","v2lat":45.762225,"v2lng":4.83444},{"v1id":5,"v1libelle":"Clermont-Ferrand","v1lat":45.777439,"v1lng":3.09287,"v2id":24,"v2libelle":"Lyon","v2lat":45.762225,"v2lng":4.83444},{"v1id":3,"v1libelle":"Montpellier","v1lat":43.610258,"v1lng":3.87914,"v2id":24,"v2libelle":"Lyon","v2lat":45.762225,"v2lng":4.83444},{"v1id":3,"v1libelle":"Montpellier","v1lat":43.610258,"v1lng":3.87914,"v2id":4,"v2libelle":"Grenoble","v2lat":45.188387,"v2lng":5.724472},{"v1id":3,"v1libelle":"Montpellier","v1lat":43.610258,"v1lng":3.87914,"v2id":22,"v2libelle":"Marseille","v2lat":43.297231,"v2lng":5.367484},{"v1id":22,"v1libelle":"Marseille","v1lat":43.297231,"v1lng":5.367484,"v2id":23,"v2libelle":"Nice","v2lat":43.711086,"v2lng":7.259351},{"v1id":13,"v1libelle":"Amiens","v1lat":49.89409,"v1lng":2.29493,"v2id":14,"v2libelle":"Lille","v2lat":50.629312,"v2lng":3.055055},{"v1id":12,"v1libelle":"Reims","v1lat":49.257803,"v1lng":4.028996,"v2id":14,"v2libelle":"Lille","v2lat":50.629312,"v2lng":3.055055},{"v1id":12,"v1libelle":"Reims","v1lat":49.257803,"v1lng":4.028996,"v2id":16,"v2libelle":"Paris","v2lat":48.857458,"v2lng":2.351864},{"v1id":9,"v1libelle":"Le Mans","v1lat":48.005522,"v1lng":0.201564,"v2id":16,"v2libelle":"Paris","v2lat":48.857458,"v2lng":2.351864},{"v1id":7,"v1libelle":"Poitiers","v1lat":46.580381,"v1lng":0.339025,"v2id":16,"v2libelle":"Paris","v2lat":48.857458,"v2lng":2.351864},{"v1id":10,"v1libelle":"Dijon","v1lat":47.32221,"v1lng":5.042856,"v2id":16,"v2libelle":"Paris","v2lat":48.857458,"v2lng":2.351864},{"v1id":11,"v1libelle":"Nancy","v1lat":48.692212,"v1lng":6.184598,"v2id":12,"v2libelle":"Reims","v2lat":49.257803,"v2lng":4.028996},{"v1id":10,"v1libelle":"Dijon","v1lat":47.32221,"v1lng":5.042856,"v2id":15,"v2libelle":"Strasbourg","v2lat":48.573623,"v2lng":7.745962},{"v1id":8,"v1libelle":"Tours","v1lat":47.393911,"v1lng":0.683438,"v2id":21,"v2libelle":"Angers","v2lat":47.470737,"v2lng":-0.552472},{"v1id":18,"v1libelle":"Rennes","v1lat":48.117161,"v1lng":-1.676437,"v2id":21,"v2libelle":"Angers","v2lat":47.470737,"v2lng":-0.552472},{"v1id":9,"v1libelle":"Le Mans","v1lat":48.005522,"v1lng":0.201564,"v2id":21,"v2libelle":"Angers","v2lat":47.470737,"v2lng":-0.552472},{"v1id":7,"v1libelle":"Poitiers","v1lat":46.580381,"v1lng":0.339025,"v2id":8,"v2libelle":"Tours","v2lat":47.393911,"v2lng":0.683438},{"v1id":7,"v1libelle":"Poitiers","v1lat":46.580381,"v1lng":0.339025,"v2id":25,"v2libelle":"Nantes","v2lat":47.219292,"v2lng":-1.5515},{"v1id":1,"v1libelle":"Bordeaux","v1lat":44.837433,"v1lng":-0.578435,"v2id":25,"v2libelle":"Nantes","v2lat":47.219292,"v2lng":-1.5515},{"v1id":6,"v1libelle":"Limoges","v1lat":45.833954,"v1lng":1.253831,"v2id":7,"v2libelle":"Poitiers","v2lat":46.580381,"v2lng":0.339025},{"v1id":2,"v1libelle":"Toulouse","v1lat":43.60488,"v1lng":1.439026,"v2id":6,"v2libelle":"Limoges","v2lat":45.833954,"v2lng":1.253831},{"v1id":5,"v1libelle":"Clermont-Ferrand","v1lat":45.777439,"v1lng":3.09287,"v2id":6,"v2libelle":"Limoges","v2lat":45.833954,"v2lng":1.253831},{"v1id":4,"v1libelle":"Grenoble","v1lat":45.188387,"v1lng":5.724472,"v2id":24,"v2libelle":"Lyon","v2lat":45.762225,"v2lng":4.83444},{"v1id":10,"v1libelle":"Dijon","v1lat":47.32221,"v1lng":5.042856,"v2id":24,"v2libelle":"Lyon","v2lat":45.762225,"v2lng":4.83444},{"v1id":4,"v1libelle":"Grenoble","v1lat":45.188387,"v1lng":5.724472,"v2id":23,"v2libelle":"Nice","v2lat":43.711086,"v2lng":7.259351},{"v1id":1,"v1libelle":"Bordeaux","v1lat":44.837433,"v1lng":-0.578435,"v2id":26,"v2libelle":"Biarritz","v2lat":43.483188,"v2lng":-1.559566},{"v1id":2,"v1libelle":"Toulouse","v1lat":43.60488,"v1lng":1.439026,"v2id":26,"v2libelle":"Biarritz","v2lat":43.483188,"v2lng":-1.559566},{"v1id":10,"v1libelle":"Dijon","v1lat":47.32221,"v1lng":5.042856,"v2id":27,"v2libelle":"Bourges","v2lat":47.081477,"v2lng":2.398234}];
+        /*
+        Si un trajet existe on passe un objet Json sinon c'est null 
+        On passe le tableau des clés car nous n’avons besoin que des 
+        ID de ville et pas les libellés
+        */
+                let chemins = null;
+            </script>
+
+ </body>
+</html>

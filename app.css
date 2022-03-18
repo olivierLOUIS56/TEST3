@@ -1,0 +1,60 @@
+/* Surchage des règles concernant un élèment html */
+body {
+    background-color:#343a40;
+}
+
+h1 {
+    font-weight:30;
+    margin-bottom:2rem;
+}
+
+/*Surchage les grands blocs */
+.main-content {
+    background-color:#FAF9F8; 
+}
+.information {
+    margin-bottom:1.5rem;
+}
+.resultat {
+    background-color:aliceblue;
+    margin-top:2rem;
+    padding:1rem;
+}
+.resultat h3 {
+    margin:2rem auto;
+}
+.resultat h3:first-child {
+    margin-top:0;
+}
+footer.container {
+    background-color:inherit;
+}
+footer a,footer a:hover {
+    color:white;
+}
+footer a:hover {
+    text-decoration :underline;
+}
+/* Surcharge des éléments Bootstrap */
+.navbar {
+    -webkit-box-shadow:0 8px 6px -6px #999 ;
+    -moz-box-shadow:0 8px 6px -6px #999 ;
+    box-shadow:0 8px 6px -6px #999 ;
+}
+.btn-block {
+    margin-top:2rem;
+}
+.container {
+    background-color:white;
+    padding-top:2rem;
+    padding-bottom:3rem;
+}
+/* Règles pour la carte */
+#mapid {
+    background:#999999;
+    height:650px;
+}
+.leaflet-tooltip {
+    font-size: 9px;
+    padding: .2 rem;
+}
